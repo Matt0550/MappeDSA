@@ -10,9 +10,10 @@
         /* Effetto di animazione del bordo glow */
         .animated-border-box {
             position: relative;
-            padding: 3px;
+            padding: 2px;
             border-radius: 9999px;
             overflow: hidden;
+            background: transparent;
             box-shadow: 0 0px 250px rgba(58, 82, 255, 0.5), 0 0px 250px rgba(175, 14, 249, 0.5);
         }
 
@@ -47,41 +48,68 @@
                 transform: translate(-50%, -50%) rotate(1turn);
             }
         }
-        
-        .search-input {
-            width: 100%;
-            padding: 12px 20px;
-            background-color: #000;
-            border: none;
-            color: white;
-            border-radius: 9999px;
-            position: relative;
-            z-index: 1;
-        }
+     
     </style>
 </head>
 
 <body class="bg-gray-800 text-white flex flex-col items-center justify-center min-h-screen">
 
-    <!-- Titolo del Sito e Motto -->
-    <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold mb-2">MappeDSA</h1>
-        <p class="text-lg text-gray-400">Centinaia di mappe completamente GRATIS!</p>
+    <div class="mt-24 flex flex-col items-center justify-center">
+
+        <!-- Titolo del Sito e Motto -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-2">MappeDSA</h1>
+            <p class="text-lg text-gray-400">Centinaia di mappe completamente GRATIS!</p>
+        </div>
+
+        <!-- Barra di Ricerca Centrale con Effetto Glow Animato -->
+        <div class="w-full max-w-md animated-border-box mb-6 items-center">
+            <input type="text" placeholder="Cerca qui una mappa o appunti..." class="focus:outline-none w-full p-4 bg-gray-900 rounded-full text-white" id="search">
+        </div>
+
+        <!-- Chip delle Categorie Outlined -->
+        <div class="flex flex-wrap justify-center gap-2" id="categories">
+            <!-- <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 1</span> -->
+            
+        </div>
+
+    </div>
+    <!-- Non hai trovato quello che cercavi? -->
+    <div class="mt-8 text-center" id="not-found" style="display: none;">
+        <p class="text-gray-400">Non hai trovato quello che cercavi?</p>
+        <a href="https://mappedsa.altervista.org/richiedi-mappa-concettuale-o-appunti/" class="text-blue-400 hover:text-blue-300">Clicca qui per richiedere una mappa!</a>
+    </div>
+    <!-- Ultimi articoli -->
+    <div class="w-full max-w-4xl mt-16" id="posts-div">
+        <h2 class="text-2xl font-bold mb-4 ml-2">Ultimi Articoli</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg" id="posts">
+            <!-- Articolo 1 
+            <div class="bg-gray-700 p-4 rounded-lg">
+                <h3 class="text-xl font-bold mb-2">Titolo Articolo 1</h3>
+                <p class="text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui ac nunc ultricies ultricies. Donec nec nunc nec nunc ultricies ultricies.</p>
+            </div>
+             -->
+            
+        </div>
     </div>
 
-    <!-- Barra di Ricerca Centrale con Effetto Glow Animato -->
-    <div class="w-full max-w-md animated-border-box mb-6">
-        <input type="text" placeholder="Cerca qui una mappa o appunti..." class="search-input focus:outline-none">
-    </div>
+    <!-- Footer -->
+    <footer class="my-8 text-center text-gray-400">
+        <div class="flex flex-row items-center justify-center gap-2">
+            <span>© 2024 MappeDSA</span>
+            <span class="text-gray-600">|</span>
+            <a href="#" class="hover:text-white">Termini di Servizio</a>
+            <span class="text-gray-600">|</span>
+            <a href="#" class="hover:text-white">Privacy Policy</a>
+            <span class="text-gray-600">|</span>
+            <a href="#" class="hover:text-white">Contattaci</a>
+        </div>
 
-    <!-- Chip delle Categorie Outlined -->
-    <div class="flex flex-wrap justify-center gap-2">
-        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 1</span>
-        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 2</span>
-        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 3</span>
-        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 4</span>
-        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 5</span>
-    </div>
+    </footer>
+
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
+    <script src="./script.js"></script>
 
 </body>
 
