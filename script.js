@@ -22,7 +22,7 @@ function searchPosts() {
 
 }
 // On document ready
-$(document).ready(function() {
+
     fetch('https://mappedsa.altervista.org/wp-json/wp/v2/posts?per_page=4')
     .then(response => response.json())
     .then(data => {
@@ -47,4 +47,3 @@ $(document).ready(function() {
             searchPosts();
         }
     });
-});
