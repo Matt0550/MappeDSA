@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MappeDSA | Centinaia di mappe gratuite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Effetto di animazione del bordo glow */
+        .animated-border-box {
+            position: relative;
+            padding: 3px;
+            border-radius: 9999px;
+            overflow: hidden;
+            box-shadow: 0 0px 250px rgba(58, 82, 255, 0.5), 0 0px 250px rgba(175, 14, 249, 0.5);
+        }
+
+        .animated-border-box::before,
+        .animated-border-box-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            width: 99999px;
+            height: 99999px;
+            background-image: conic-gradient(rgba(58, 82, 255, 0.1), rgba(175, 14, 249, 0.8), rgba(0, 0, 0, 0) 25%);
+            animation: rotate 4s linear infinite;
+            z-index: -1;
+        }
+
+        .animated-border-box::after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            left: 5px;
+            top: 5px;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            background: #292a2e;
+            border-radius: inherit;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: translate(-50%, -50%) rotate(1turn);
+            }
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #000;
+            border: none;
+            color: white;
+            border-radius: 9999px;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-800 text-white flex flex-col items-center justify-center min-h-screen">
+
+    <!-- Titolo del Sito e Motto -->
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-2">MappeDSA</h1>
+        <p class="text-lg text-gray-400">Centinaia di mappe completamente GRATIS!</p>
+    </div>
+
+    <!-- Barra di Ricerca Centrale con Effetto Glow Animato -->
+    <div class="w-full max-w-md animated-border-box mb-6">
+        <input type="text" placeholder="Cerca qui una mappa o appunti..." class="search-input focus:outline-none">
+    </div>
+
+    <!-- Chip delle Categorie Outlined -->
+    <div class="flex flex-wrap justify-center gap-2">
+        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 1</span>
+        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 2</span>
+        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 3</span>
+        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 4</span>
+        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">Categoria 5</span>
+    </div>
+
+</body>
+
+</html>
