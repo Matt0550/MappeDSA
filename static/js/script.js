@@ -1,7 +1,8 @@
 
 function appendCategory(name, link) {
+    link = link + '?utm_source=mappedsa_it&utm_medium=web&utm_campaign=homepage_category';
     $('#categories').append(`
-        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs">${name}</span>
+        <span class="px-3 py-1 rounded-full border border-gray-600 text-gray-300 text-xs hover:cursor-pointer hover:scale-105 transition duration-300 ease-in-out" onclick="window.open('${link}', '_blank')">${name}</span>
     `);
 }
 
@@ -48,7 +49,7 @@ fetch('https://mappedsa.altervista.org/wp-json/wp/v2/categories')
 .then(data => {
     console.log(data);
     data.forEach(category => {
-        appendCategory(category.name);
+        appendCategory(category.name, category.link);
     });
 
     $('#categories').fadeIn();
