@@ -10,7 +10,7 @@ function searchPosts() {
     let search = $('#search').val();
     
     // Utm
-    search = search + '?utm_source=mappedsa_it&utm_medium=web&utm_campaign=search';
+    search = search + '&utm_source=mappedsa_it&utm_medium=web&utm_campaign=search';
     // open in a new tab
     window.open('https://mappedsa.altervista.org/?s=' + search, '_blank');
     $('#search').val('');
