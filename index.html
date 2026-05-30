@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MappeDSA | Link Bio</title>
 
+    <!-- Always serve the freshest page: tell browsers not to cache this HTML -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <!-- Meta Tags -->
     <meta name="title" content="MappeDSA | Link Bio">
     <meta name="description"
@@ -37,6 +42,17 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-PZNRG93W');</script>
+    <!-- End Google Tag Manager -->
 
     <!-- Glassmorphism background + glass utilities (light mode, inspired by GlassLink-Bio) -->
     <style>
@@ -83,19 +99,16 @@
             box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
         }
 
-        /* Smooth scroll-reveal */
+        /* Smooth scroll-reveal — every card uses `.reveal`; JS assigns the
+           staggered delay (--reveal-delay) in document order, then adds `.in`
+           to trigger the entrance. No per-position CSS rules needed. */
         .reveal {
             opacity: 0;
             transform: translateY(12px);
-            animation: rise .6s ease forwards;
         }
 
-        .reveal:nth-child(2) {
-            animation-delay: .08s;
-        }
-
-        .reveal:nth-child(3) {
-            animation-delay: .16s;
+        .reveal.in {
+            animation: rise .6s ease var(--reveal-delay, 0s) forwards;
         }
 
         @keyframes rise {
@@ -104,10 +117,79 @@
                 transform: translateY(0);
             }
         }
+
+        /* --- "Last minute" highlight link: animated gradient + glow + shine --- */
+        .lastminute {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(120deg, #f43f5e, #f97316, #f43f5e);
+            background-size: 200% 200%;
+            /* looping gradient shimmer (entrance is handled by the .reveal wrapper) */
+            animation: lm-gradient 5s ease infinite;
+            box-shadow: 0 10px 28px rgba(244, 63, 94, .35);
+        }
+
+        .lastminute::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .45), transparent);
+            transform: skewX(-20deg);
+            animation: lm-shine 3.4s ease-in-out infinite;
+        }
+
+        @keyframes lm-gradient {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes lm-shine {
+            0% {
+                left: -120%;
+            }
+
+            55%,
+            100% {
+                left: 130%;
+            }
+        }
+
+        /* Pulsing "live" dot on the badge */
+        .lm-dot {
+            animation: lm-pulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes lm-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(.7);
+            }
+        }
     </style>
 </head>
 
 <body class="min-h-screen text-slate-800 flex flex-col items-center px-4 py-10">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PZNRG93W" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div class="bg"></div>
 
     <main class="w-full max-w-md flex flex-col gap-5">
@@ -127,6 +209,9 @@
             <!-- Social icons (rendered from JS list, see script below) -->
             <div id="socials" class="flex flex-wrap gap-3 mt-6"></div>
         </section>
+
+        <!-- "Last minute" highlight link (rendered from JS list, see script below) -->
+        <section id="lastminute" class="reveal flex flex-col gap-3 empty:hidden"></section>
 
         <!-- Search bar as primary CTA -->
         <section class="glass rounded-[32px] p-6 reveal">
@@ -166,35 +251,88 @@
     </main>
 
     <script>
+        /* ============================================================
+           CONFIGURAZIONE — modifica qui tutti i contenuti della pagina.
+           Per ogni voce: `enabled: false` la nasconde senza eliminarla.
+           ============================================================ */
+        const CONFIG = {
+
+            // Icone social (in alto, nel profilo)
+            socials: [
+                { label: 'Instagram', href: 'https://instagram.com/mappe.dsa', icon: 'fa-brands fa-instagram', hover: 'hover:text-pink-600', enabled: true },
+                { label: 'TikTok', href: 'https://www.tiktok.com/@mappe.dsa', icon: 'fa-brands fa-tiktok', hover: 'hover:text-slate-900', enabled: true },
+                { label: 'Facebook', href: 'https://facebook.com/profile.php?id=61565118999032', icon: 'fa-brands fa-facebook-f', hover: 'hover:text-blue-600', enabled: true },
+                { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500', enabled: true }
+            ],
+
+            // Link "Last minute" — card animate ed evidenziate per offerte a tempo.
+            // `badge` = testo della pillola; `sub` = sottotitolo (opzionale).
+            // Programmazione (orari in UTC, formato ISO con la "Z" finale):
+            //   `startDate` -> mostra automaticamente da questa data/ora in poi (es. '2026-06-01T08:00:00Z')
+            //   `endDate`   -> nasconde automaticamente dopo questa data/ora     (es. '2026-06-30T23:59:59Z')
+            //   Ometti un campo per lasciarlo senza limite. `enabled: false` nasconde SEMPRE, anche se in range.
+            lastMinute: [
+                { label: 'Matutirà 2026: Commissari Esterni ', sub: 'Clicca per accedere al motore di ricerca delle commissioni', href: 'https://go.mappedsa.it/KnRJR3', icon: 'fa-solid fa-search', badge: 'Last minute', enabled: false, startDate: null, endDate: '2026-06-10T00:00:00Z' }
+            ],
+
+            // Pulsanti link principali. `highlight: true` = sfondo sfumato colorato.
+            links: [
+                { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true, enabled: true },
+                { label: 'Richiedi una mappa o appunti', href: 'https://go.mappedsa.it/richiedi-appunti', icon: 'fa-solid fa-plus', chip: 'bg-blue-50 text-blue-600', enabled: true },
+                { label: 'Sostieni il progetto', href: 'https://go.mappedsa.it/donazioni', icon: 'fa-solid fa-heart', chip: 'bg-rose-50 text-rose-500', enabled: true },
+                { label: 'Contattaci / Supporto', href: 'https://go.mappedsa.it/supporto', icon: 'fa-solid fa-headset', chip: 'bg-emerald-50 text-emerald-600', enabled: true }
+            ]
+        };
+
+        /* ============================================================
+           RENDERING — di norma non serve modificare nulla qui sotto.
+           ============================================================ */
+        const isEnabled = item => item.enabled !== false;
+
+        // Last minute visibility: deve essere abilitato E dentro la finestra di date (UTC).
+        // startDate/endDate sono stringhe ISO 8601 in UTC (es. '2026-06-01T00:00:00Z').
+        // Date assenti o non valide = nessun limite su quel lato.
+        const nowMs = Date.now();
+        const isLastMinuteActive = item => {
+            if (!isEnabled(item)) return false;                                    // enabled:false nasconde sempre
+            const start = item.startDate ? Date.parse(item.startDate) : NaN;
+            const end = item.endDate ? Date.parse(item.endDate) : NaN;
+            if (!Number.isNaN(start) && nowMs < start) return false;               // non ancora iniziato
+            if (!Number.isNaN(end) && nowMs > end) return false;                   // già terminato
+            return true;
+        };
+
         const year = new Date().getFullYear();
         document.querySelector('footer span').textContent = `© ${year} MappeDSA`;
 
-        // --- Social links (data-driven, Font Awesome icons) ---
-        const socials = [
-            { label: 'Instagram', href: 'https://instagram.com/mappe.dsa', icon: 'fa-brands fa-instagram', hover: 'hover:text-pink-600' },
-            { label: 'TikTok', href: 'https://www.tiktok.com/@mappe.dsa', icon: 'fa-brands fa-tiktok', hover: 'hover:text-slate-900' },
-            { label: 'Facebook', href: 'https://facebook.com/profile.php?id=61565118999032', icon: 'fa-brands fa-facebook-f', hover: 'hover:text-blue-600' },
-            { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500' }
-        ];
-
-        const socialsContainer = document.getElementById('socials');
-        socialsContainer.innerHTML = socials.map(s => `
+        // --- Social icons ---
+        document.getElementById('socials').innerHTML = CONFIG.socials.filter(isEnabled).map(s => `
             <a href="${s.href}" target="_blank" rel="noopener" aria-label="${s.label}"
                 class="w-[52px] h-[52px] rounded-[18px] grid place-items-center bg-white/90 shadow-[0_4px_12px_rgba(15,23,42,.04)] text-slate-700 ${s.hover} hover:-translate-y-0.5 transition duration-200">
                 <i class="${s.icon} text-xl"></i>
             </a>`).join('');
 
-        // --- Link buttons (data-driven, Font Awesome icons) ---
-        // `highlight: true` gives the button a colored gradient instead of the plain glass style.
-        const links = [
-            { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true },
-            { label: 'Richiedi una mappa o appunti', href: 'https://go.mappedsa.it/richiedi-appunti', icon: 'fa-solid fa-plus', chip: 'bg-blue-50 text-blue-600' },
-            { label: 'Sostieni il progetto', href: 'https://go.mappedsa.it/donazioni', icon: 'fa-solid fa-heart', chip: 'bg-rose-50 text-rose-500' },
-            { label: 'Contattaci / Supporto', href: 'https://go.mappedsa.it/supporto', icon: 'fa-solid fa-headset', chip: 'bg-emerald-50 text-emerald-600' }
-        ];
+        // --- "Last minute" highlight links (rispetta enabled + finestra date UTC) ---
+        document.getElementById('lastminute').innerHTML = CONFIG.lastMinute.filter(isLastMinuteActive).map(l => `
+            <a href="${l.href}" target="_blank" rel="noopener"
+                class="lastminute group flex items-center justify-between gap-3 rounded-[24px] px-5 py-4 text-white hover:-translate-y-0.5 transition duration-200">
+                <span class="relative z-10 flex items-center gap-3.5">
+                    <span class="w-11 h-11 grid place-items-center rounded-2xl bg-white/20 backdrop-blur-sm text-white text-lg shrink-0">
+                        <i class="${l.icon}"></i>
+                    </span>
+                    <span class="flex flex-col">
+                        <span class="inline-flex items-center gap-1.5 self-start rounded-full bg-white/25 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider mb-0.5">
+                            <span class="lm-dot w-1.5 h-1.5 rounded-full bg-white"></span>${l.badge || 'Last minute'}
+                        </span>
+                        <span class="font-bold text-[15px] leading-tight">${l.label}</span>
+                        ${l.sub ? `<span class="text-white/80 text-xs mt-0.5">${l.sub}</span>` : ''}
+                    </span>
+                </span>
+                <i class="fa-solid fa-chevron-right relative z-10 text-sm text-white/90 group-hover:translate-x-0.5 transition"></i>
+            </a>`).join('');
 
-        const linksContainer = document.getElementById('links');
-        linksContainer.innerHTML = links.map(l => {
+        // --- Link buttons ---
+        document.getElementById('links').innerHTML = CONFIG.links.filter(isEnabled).map(l => {
             const base = 'group flex items-center justify-between gap-3 rounded-2xl px-4 py-3.5 shadow-[0_4px_12px_rgba(15,23,42,.04)] hover:translate-x-[3px] transition duration-200';
             const style = l.highlight ? 'bg-gradient-to-r from-blue-500 to-cyan-500 shadow-md' : 'bg-white/90';
             const chip = l.highlight ? 'bg-white/20 text-white' : l.chip;
@@ -211,6 +349,16 @@
                     <i class="fa-solid fa-chevron-right text-xs ${chevron}"></i>
                 </a>`;
         }).join('');
+
+        // --- Staggered reveal: walk every visible card in document order and
+        //     give each the next delay step, then trigger the entrance. ---
+        const REVEAL_STEP = 0.08; // seconds between consecutive cards
+        Array.from(document.querySelectorAll('.reveal'))
+            .filter(el => el.offsetParent !== null) // skip hidden (e.g. empty Last minute)
+            .forEach((el, i) => {
+                el.style.setProperty('--reveal-delay', (i * REVEAL_STEP) + 's');
+                el.classList.add('in');
+            });
 
         function searchPosts() {
             const input = document.getElementById('search');
