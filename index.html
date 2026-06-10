@@ -246,30 +246,42 @@
 
     <script>
         /* ============================================================
-           CONFIGURAZIONE — modifica qui tutti i contenuti della pagina.
-           Per ogni voce: `enabled: false` la nasconde senza eliminarla.
+           CATTURA REFERRER PER UTM (Modifica per Rassegna Stampa)
+           ============================================================ */
+        let utmParams = '';
+        const ref = document.referrer;
+        
+        // Se c'è un referrer e non è il tuo stesso sito
+        if (ref && !ref.includes('mappedsa.it')) {
+            try {
+                const refUrl = new URL(ref);
+                const source = refUrl.hostname.replace('www.', ''); // Es: orizzontescuola.it
+                utmParams = `utm_source=${source}&utm_medium=referral&utm_campaign=rassegna_stampa`;
+            } catch (e) {
+                console.error("Errore nel parsing del referrer:", e);
+            }
+        }
+
+        // Funzione helper per accodare in modo sicuro i parametri agli URL
+        function addUtm(url) {
+            if (!utmParams) return url;
+            const separator = url.includes('?') ? '&' : '?';
+            return url + separator + utmParams;
+        }
+
+        /* ============================================================
+           CONFIGURAZIONE
            ============================================================ */
         const CONFIG = {
-
-            // Icone social (in alto, nel profilo)
             socials: [
                 { label: 'Instagram', href: 'https://instagram.com/mappe.dsa', icon: 'fa-brands fa-instagram', hover: 'hover:text-pink-600', enabled: true },
                 { label: 'TikTok', href: 'https://www.tiktok.com/@mappe.dsa', icon: 'fa-brands fa-tiktok', hover: 'hover:text-slate-900', enabled: true },
                 { label: 'Facebook', href: 'https://facebook.com/profile.php?id=61565118999032', icon: 'fa-brands fa-facebook-f', hover: 'hover:text-blue-600', enabled: true },
                 { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500', enabled: true }
             ],
-
-            // Link "Last minute" — card animate ed evidenziate per offerte a tempo.
-            // `badge` = testo della pillola; `sub` = sottotitolo (opzionale).
-            // Programmazione (orari in UTC, formato ISO con la "Z" finale):
-            //   `startDate` -> mostra automaticamente da questa data/ora in poi (es. '2026-06-01T08:00:00Z')
-            //   `endDate`   -> nasconde automaticamente dopo questa data/ora     (es. '2026-06-30T23:59:59Z')
-            //   Ometti un campo per lasciarlo senza limite. `enabled: false` nasconde SEMPRE, anche se in range.
             lastMinute: [
                 { label: 'Matutirà 2026: Commissari Esterni ', sub: 'Clicca per accedere al motore di ricerca delle commissioni', href: 'https://go.mappedsa.it/KnRJR3', icon: 'fa-solid fa-search', badge: 'Last minute', enabled: true, startDate: null, endDate: '2026-06-18T00:00:00Z' }
             ],
-
-            // Pulsanti link principali. `highlight: true` = sfondo sfumato colorato.
             links: [
                 { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true, enabled: true },
                 { label: 'Richiedi una mappa o appunti', href: 'https://go.mappedsa.it/richiedi-appunti', icon: 'fa-solid fa-plus', chip: 'bg-blue-50 text-blue-600', enabled: true },
@@ -279,36 +291,33 @@
         };
 
         /* ============================================================
-           RENDERING — di norma non serve modificare nulla qui sotto.
+           RENDERING
            ============================================================ */
         const isEnabled = item => item.enabled !== false;
 
-        // Last minute visibility: deve essere abilitato E dentro la finestra di date (UTC).
-        // startDate/endDate sono stringhe ISO 8601 in UTC (es. '2026-06-01T00:00:00Z').
-        // Date assenti o non valide = nessun limite su quel lato.
         const nowMs = Date.now();
         const isLastMinuteActive = item => {
-            if (!isEnabled(item)) return false;                                    // enabled:false nasconde sempre
+            if (!isEnabled(item)) return false;
             const start = item.startDate ? Date.parse(item.startDate) : NaN;
             const end = item.endDate ? Date.parse(item.endDate) : NaN;
-            if (!Number.isNaN(start) && nowMs < start) return false;               // non ancora iniziato
-            if (!Number.isNaN(end) && nowMs > end) return false;                   // già terminato
+            if (!Number.isNaN(start) && nowMs < start) return false;
+            if (!Number.isNaN(end) && nowMs > end) return false;
             return true;
         };
 
         const year = new Date().getFullYear();
         document.querySelector('footer span').textContent = `© ${year} MappeDSA`;
 
-        // --- Social icons ---
+        // Socials (non serve UTM per l'uscita ai social)
         document.getElementById('socials').innerHTML = CONFIG.socials.filter(isEnabled).map(s => `
             <a href="${s.href}" target="_blank" rel="noopener" aria-label="${s.label}"
                 class="w-[52px] h-[52px] rounded-[18px] grid place-items-center bg-white/90 shadow-[0_4px_12px_rgba(15,23,42,.04)] text-slate-700 ${s.hover} hover:-translate-y-0.5 transition duration-200">
                 <i class="${s.icon} text-xl"></i>
             </a>`).join('');
 
-        // --- "Last minute" highlight links (rispetta enabled + finestra date UTC) ---
+        // Last minute
         document.getElementById('lastminute').innerHTML = CONFIG.lastMinute.filter(isLastMinuteActive).map(l => `
-            <a href="${l.href}" target="_blank" rel="noopener"
+            <a href="${addUtm(l.href)}" target="_blank" rel="noopener"
                 class="lastminute group flex items-center justify-between gap-3 rounded-[24px] px-5 py-4 text-white hover:-translate-y-0.5 transition duration-200">
                 <span class="relative z-10 flex items-center gap-3.5">
                     <span class="w-11 h-11 grid place-items-center rounded-2xl bg-white/20 backdrop-blur-sm text-white text-lg shrink-0">
@@ -325,7 +334,7 @@
                 <i class="fa-solid fa-chevron-right relative z-10 text-sm text-white/90 group-hover:translate-x-0.5 transition"></i>
             </a>`).join('');
 
-        // --- Link buttons ---
+        // Links
         document.getElementById('links').innerHTML = CONFIG.links.filter(isEnabled).map(l => {
             const base = 'group flex items-center justify-between gap-3 rounded-2xl px-4 py-3.5 shadow-[0_4px_12px_rgba(15,23,42,.04)] hover:translate-x-[3px] transition duration-200';
             const style = l.highlight ? 'bg-gradient-to-r from-blue-500 to-cyan-500 shadow-md' : 'bg-white/90';
@@ -333,7 +342,7 @@
             const labelColor = l.highlight ? 'text-white' : 'text-slate-800';
             const chevron = l.highlight ? 'text-white/80' : 'text-slate-400 group-hover:text-slate-600';
             return `
-                <a href="${l.href}" target="_blank" rel="noopener" class="${base} ${style}">
+                <a href="${addUtm(l.href)}" target="_blank" rel="noopener" class="${base} ${style}">
                     <span class="flex items-center gap-3">
                         <span class="w-9 h-9 grid place-items-center rounded-xl ${chip}">
                             <i class="${l.icon}"></i>
@@ -344,11 +353,9 @@
                 </a>`;
         }).join('');
 
-        // --- Staggered reveal: walk every visible card in document order and
-        //     give each the next delay step, then trigger the entrance. ---
-        const REVEAL_STEP = 0.08; // seconds between consecutive cards
+        const REVEAL_STEP = 0.08;
         Array.from(document.querySelectorAll('.reveal'))
-            .filter(el => el.offsetParent !== null) // skip hidden (e.g. empty Last minute)
+            .filter(el => el.offsetParent !== null)
             .forEach((el, i) => {
                 el.style.setProperty('--reveal-delay', (i * REVEAL_STEP) + 's');
                 el.classList.add('in');
@@ -361,19 +368,24 @@
                 input.focus();
                 return;
             }
-            const url = 'https://mappedsa.altervista.org/?s=' + encodeURIComponent(query)
-                + '&utm_source=mappedsa_it&utm_medium=web&utm_campaign=link_in_bio';
+            // Mantiene il source del referrer se esiste, altrimenti usa i default web/link_in_bio
+            let url = 'https://mappedsa.altervista.org/?s=' + encodeURIComponent(query);
+            if (utmParams) {
+                url += '&' + utmParams;
+            } else {
+                url += '&utm_source=mappedsa_it&utm_medium=web&utm_campaign=link_in_bio';
+            }
             window.open(url, '_blank');
             input.value = '';
         }
 
-        // Submit on Enter
         document.getElementById('search').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 searchPosts();
             }
         });
     </script>
+
 
 </body>
 
