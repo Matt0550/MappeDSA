@@ -1,0 +1,42 @@
+name: Update recent posts
+
+# Refreshes the "Ultime mappe dal blog" cards in index.html from the WordPress REST
+# API, then commits the change. The posts are baked into static HTML so they are
+# crawlable (mobile-first indexing) and the page stays fast even if the blog is slow.
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # every 6 hours (UTC)
+  workflow_dispatch:          # allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-posts
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build posts into index.html
+        run: node scripts/update-posts.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain index.html)" ]; then
+            git add index.html
+            git commit -m "chore: refresh recent posts [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi

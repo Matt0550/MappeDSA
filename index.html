@@ -13,30 +13,73 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MappeDSA | Link Bio</title>
+    <title>MappeDSA | Mappe Concettuali e Appunti Gratis</title>
 
-    <!-- Always serve the freshest page: tell browsers not to cache this HTML -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <!-- Canonical -->
+    <link rel="canonical" href="https://mappedsa.it/">
+
+    <!-- Always serve the freshest page: tell browsers to revalidate this HTML -->
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
 
     <!-- Meta Tags -->
-    <meta name="title" content="MappeDSA | Link Bio">
+    <meta name="title" content="MappeDSA | Mappe Concettuali e Appunti Gratis">
     <meta name="description"
-        content="Cerca tra centinaia di mappe concettuali e appunti gratuiti e seguici sui social!">
+        content="MappeDSA: centinaia di mappe concettuali e appunti scolastici gratuiti da scaricare. Cerca la tua materia, scopri le ultime mappe e seguici sui social.">
     <meta name="author" content="MappeDSA">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#f8fbff">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="MappeDSA | Link Bio">
+    <meta property="og:title" content="MappeDSA | Mappe Concettuali e Appunti Gratis">
     <meta property="og:description"
-        content="Cerca tra centinaia di mappe concettuali e appunti gratuiti e seguici sui social!">
+        content="Centinaia di mappe concettuali e appunti scolastici gratuiti. Cerca la tua materia e scopri le ultime mappe pubblicate.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mappedsa.altervista.org/">
-    <meta property="og:image" content="https://mappedsa.altervista.org/static/favicon/web-app-manifest-512x512.png">
+    <meta property="og:url" content="https://mappedsa.it/">
+    <meta property="og:image" content="https://mappedsa.it/static/favicon/BannerOG.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MappeDSA — Mappe Concettuali e Appunti Gratis">
     <meta property="og:site_name" content="MappeDSA">
     <meta property="og:locale" content="it_IT">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MappeDSA | Mappe Concettuali e Appunti Gratis">
+    <meta name="twitter:description"
+        content="Centinaia di mappe concettuali e appunti scolastici gratuiti. Cerca la tua materia e scopri le ultime mappe pubblicate.">
+    <meta name="twitter:image" content="https://mappedsa.it/static/favicon/BannerOG.png">
+
+    <!-- Structured data: connects mappedsa.it, the blog and the socials as one brand entity -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://mappedsa.it/#organization",
+          "name": "MappeDSA",
+          "url": "https://mappedsa.it/",
+          "logo": "https://mappedsa.it/static/favicon/web-app-manifest-512x512.png",
+          "sameAs": [
+            "https://mappedsa.altervista.org/",
+            "https://instagram.com/mappe.dsa",
+            "https://www.tiktok.com/@mappe.dsa",
+            "https://facebook.com/profile.php?id=61565118999032",
+            "https://t.me/mappedsa"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://mappedsa.it/#website",
+          "name": "MappeDSA",
+          "url": "https://mappedsa.it/",
+          "inLanguage": "it-IT",
+          "publisher": { "@id": "https://mappedsa.it/#organization" }
+        }
+      ]
+    }
+    </script>
 
     <!-- Icons -->
     <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
@@ -186,7 +229,14 @@
 <body class="min-h-screen text-slate-800 flex flex-col items-center px-4 py-10">
     <div class="bg"></div>
 
-    <main class="w-full max-w-md flex flex-col gap-5">
+    <main class="w-full max-w-md lg:max-w-6xl flex flex-col gap-5">
+
+        <!-- On desktop/tablet the page becomes a 2-column portal: bio on the left,
+             recent blog posts on the right. On mobile it stays a single column. -->
+        <div class="w-full lg:grid lg:grid-cols-[360px_minmax(0,1fr)] lg:gap-7 lg:items-start">
+
+        <!-- Bio column (profile, search, links) -->
+        <div class="flex flex-col gap-5">
 
         <!-- Profile card -->
         <section class="glass rounded-[32px] p-6 reveal">
@@ -232,6 +282,106 @@
         <!-- Link buttons (rendered from JS list, see script below) -->
         <section id="links" class="glass rounded-[32px] p-4 flex flex-col gap-3 reveal"></section>
 
+        <!-- "Parlano di noi" press mentions (rendered from CONFIG.press in config.js).
+             Hidden by default; shown only if there is at least one enabled item. -->
+        <section id="press-section" class="glass rounded-[32px] p-5 reveal hidden" aria-labelledby="press-title">
+            <h2 id="press-title" class="text-sm font-bold text-slate-900 mb-1">Parlano di noi</h2>
+            <p class="text-xs text-slate-500 mb-4">MappeDSA sulla stampa e nei media.</p>
+            <div id="press" class="grid grid-cols-2 gap-3"></div>
+        </section>
+
+        </div><!-- /Bio column -->
+
+        <!-- Recent posts portal.
+             The cards between POSTS:START / POSTS:END are STATIC HTML, regenerated by
+             the "Update recent posts" GitHub Action (scripts/update-posts.mjs) every few
+             hours. They are in the raw HTML on purpose: crawlable for mobile-first
+             indexing and resilient if the blog is slow/down. -->
+        <section class="mt-6 lg:mt-0 reveal" aria-labelledby="recent-title">
+            <div class="flex items-end justify-between gap-3 mb-3 px-1">
+                <div>
+                    <h2 id="recent-title" class="text-base font-bold text-slate-900">Ultime mappe dal blog</h2>
+                    <p class="text-sm text-slate-500">Le risorse caricate di recente su MappeDSA.</p>
+                </div>
+                <a href="https://mappedsa.altervista.org/" target="_blank" rel="noopener"
+                    class="shrink-0 text-sm font-semibold text-blue-600 hover:text-blue-700 transition whitespace-nowrap">
+                    Vedi tutte <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- POSTS:START -->
+                <a href="https://mappedsa.altervista.org/2026/06/12/italiano-le-opere-di-giacomo-leopardi-mappa-concettuale/" target="_blank" rel="noopener"
+                    class="group glass rounded-2xl overflow-hidden flex flex-col hover:-translate-y-0.5 transition duration-200">
+                    <div class="aspect-[768/354] overflow-hidden bg-slate-100">
+                        <img src="https://mappedsa.altervista.org/wp-content/uploads/2026/06/630-Le-opere-di-Giacomo-Leopardi-768x354.png" alt="Italiano: Le Opere di Giacomo Leopardi – Mappa Concettuale" loading="lazy"
+                            class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-300">
+                    </div>
+                    <div class="p-3.5 flex flex-col gap-1">
+                        <span class="text-[11px] font-medium text-slate-400">12 giu 2026</span>
+                        <span class="font-semibold text-slate-800 text-sm leading-snug line-clamp-2">Italiano: Le Opere di Giacomo Leopardi – Mappa Concettuale</span>
+                    </div>
+                </a>
+                <a href="https://mappedsa.altervista.org/2026/06/12/italiano-giacomo-leopardi-mappa-concettuale/" target="_blank" rel="noopener"
+                    class="group glass rounded-2xl overflow-hidden flex flex-col hover:-translate-y-0.5 transition duration-200">
+                    <div class="aspect-[768/354] overflow-hidden bg-slate-100">
+                        <img src="https://mappedsa.altervista.org/wp-content/uploads/2026/06/630-Giacomo-Leopardi-768x266.png" alt="Italiano: Giacomo Leopardi – Mappa Concettuale" loading="lazy"
+                            class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-300">
+                    </div>
+                    <div class="p-3.5 flex flex-col gap-1">
+                        <span class="text-[11px] font-medium text-slate-400">12 giu 2026</span>
+                        <span class="font-semibold text-slate-800 text-sm leading-snug line-clamp-2">Italiano: Giacomo Leopardi – Mappa Concettuale</span>
+                    </div>
+                </a>
+                <a href="https://mappedsa.altervista.org/2026/06/10/richieste-le-opere-di-italo-calvino-mappa-concettuale/" target="_blank" rel="noopener"
+                    class="group glass rounded-2xl overflow-hidden flex flex-col hover:-translate-y-0.5 transition duration-200">
+                    <div class="aspect-[768/354] overflow-hidden bg-slate-100">
+                        <img src="https://mappedsa.altervista.org/wp-content/uploads/2026/06/620-Le-opere-di-Italo-Calvino-768x361.png" alt="Richieste: Le opere di Italo Calvino – Mappa Concettuale" loading="lazy"
+                            class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-300">
+                    </div>
+                    <div class="p-3.5 flex flex-col gap-1">
+                        <span class="text-[11px] font-medium text-slate-400">10 giu 2026</span>
+                        <span class="font-semibold text-slate-800 text-sm leading-snug line-clamp-2">Richieste: Le opere di Italo Calvino – Mappa Concettuale</span>
+                    </div>
+                </a>
+                <a href="https://mappedsa.altervista.org/2026/06/10/richieste-italo-calvino-mappa-concettuale/" target="_blank" rel="noopener"
+                    class="group glass rounded-2xl overflow-hidden flex flex-col hover:-translate-y-0.5 transition duration-200">
+                    <div class="aspect-[768/354] overflow-hidden bg-slate-100">
+                        <img src="https://mappedsa.altervista.org/wp-content/uploads/2026/06/620-Italo-Calvino-768x379.png" alt="Richieste: Italo Calvino – Mappa Concettuale" loading="lazy"
+                            class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-300">
+                    </div>
+                    <div class="p-3.5 flex flex-col gap-1">
+                        <span class="text-[11px] font-medium text-slate-400">10 giu 2026</span>
+                        <span class="font-semibold text-slate-800 text-sm leading-snug line-clamp-2">Richieste: Italo Calvino – Mappa Concettuale</span>
+                    </div>
+                </a>
+                <a href="https://mappedsa.altervista.org/2026/06/10/richieste-subnetting-e-piano-di-indirizzamento-mappa-concettuale/" target="_blank" rel="noopener"
+                    class="group glass rounded-2xl overflow-hidden flex flex-col hover:-translate-y-0.5 transition duration-200">
+                    <div class="aspect-[768/354] overflow-hidden bg-slate-100">
+                        <img src="https://mappedsa.altervista.org/wp-content/uploads/2026/06/628-Subnetting-e-Piano-di-Indirizzamento-768x397.png" alt="Richieste: Subnetting e piano di indirizzamento – Mappa Concettuale" loading="lazy"
+                            class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-300">
+                    </div>
+                    <div class="p-3.5 flex flex-col gap-1">
+                        <span class="text-[11px] font-medium text-slate-400">10 giu 2026</span>
+                        <span class="font-semibold text-slate-800 text-sm leading-snug line-clamp-2">Richieste: Subnetting e piano di indirizzamento – Mappa Concettuale</span>
+                    </div>
+                </a>
+                <a href="https://mappedsa.altervista.org/2026/04/20/richieste-la-battaglia-di-adrianopoli-mappa-concettuale/" target="_blank" rel="noopener"
+                    class="group glass rounded-2xl overflow-hidden flex flex-col hover:-translate-y-0.5 transition duration-200">
+                    <div class="aspect-[768/354] overflow-hidden bg-slate-100">
+                        <img src="https://mappedsa.altervista.org/wp-content/uploads/2026/04/605-La-battaglia-di-Adrianopoli-768x265.png" alt="Richieste: La battaglia di Adrianopoli – Mappa Concettuale" loading="lazy"
+                            class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-300">
+                    </div>
+                    <div class="p-3.5 flex flex-col gap-1">
+                        <span class="text-[11px] font-medium text-slate-400">20 apr 2026</span>
+                        <span class="font-semibold text-slate-800 text-sm leading-snug line-clamp-2">Richieste: La battaglia di Adrianopoli – Mappa Concettuale</span>
+                    </div>
+                </a>
+                <!-- POSTS:END -->
+            </div>
+        </section>
+
+        </div><!-- /portal grid -->
+
         <!-- Footer -->
         <footer class="text-center text-xs text-slate-400 mt-2 mb-4">
             <div class="flex flex-wrap items-center justify-center gap-2">
@@ -243,6 +393,9 @@
         </footer>
 
     </main>
+
+    <!-- Contenuti configurabili (social, link, last-minute, "Parlano di noi") -->
+    <script src="/static/js/config.js"></script>
 
     <script>
         /* ============================================================
@@ -270,29 +423,7 @@
         }
 
         /* ============================================================
-           CONFIGURAZIONE
-           ============================================================ */
-        const CONFIG = {
-            socials: [
-                { label: 'Instagram', href: 'https://instagram.com/mappe.dsa', icon: 'fa-brands fa-instagram', hover: 'hover:text-pink-600', enabled: true },
-                { label: 'TikTok', href: 'https://www.tiktok.com/@mappe.dsa', icon: 'fa-brands fa-tiktok', hover: 'hover:text-slate-900', enabled: true },
-                { label: 'Facebook', href: 'https://facebook.com/profile.php?id=61565118999032', icon: 'fa-brands fa-facebook-f', hover: 'hover:text-blue-600', enabled: true },
-                { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500', enabled: true }
-            ],
-            lastMinute: [
-                { label: 'Matutirà 2026: Commissari Esterni ', sub: 'Clicca per accedere al motore di ricerca delle commissioni', href: 'https://go.mappedsa.it/KnRJR3', icon: 'fa-solid fa-search', badge: 'Last minute', enabled: false, startDate: null, endDate: '2026-06-18T00:00:00Z' }
-            ],
-            links: [
-                { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true, enabled: true },
-                { label: 'Richiedi una mappa o appunti', href: 'https://go.mappedsa.it/richiedi-appunti', icon: 'fa-solid fa-plus', chip: 'bg-blue-50 text-blue-600', enabled: true },
-                { label: 'Sostieni il progetto', href: 'https://go.mappedsa.it/donazioni', icon: 'fa-solid fa-heart', chip: 'bg-rose-50 text-rose-500', enabled: true },
-                { label: 'Contattaci / Supporto', href: 'https://go.mappedsa.it/supporto', icon: 'fa-solid fa-headset', chip: 'bg-emerald-50 text-emerald-600', enabled: true },
-                { label: 'Articolo Orizzonte Scuola', href: 'https://go.mappedsa.it/orizzontescuola', icon: 'fa-solid fa-newspaper', chip: 'bg-cyan-50 text-cyan-600', enabled: true }
-            ]
-        };
-
-        /* ============================================================
-           RENDERING
+           RENDERING  (CONFIG è definito in /static/js/config.js)
            ============================================================ */
         const isEnabled = item => item.enabled !== false;
 
@@ -353,6 +484,20 @@
                     <i class="fa-solid fa-chevron-right text-xs ${chevron}"></i>
                 </a>`;
         }).join('');
+
+        // "Parlano di noi" — logo cliccabili verso i short link go.mappedsa.it.
+        // Se il logo non carica (file mancante), mostra il nome come fallback.
+        const pressItems = (CONFIG.press || []).filter(isEnabled);
+        document.getElementById('press').innerHTML = pressItems.map(p => `
+            <a href="${addUtm(p.href)}" target="_blank" rel="noopener" aria-label="${p.name}"
+                class="group flex items-center justify-center h-16 rounded-2xl bg-white/90 shadow-[0_4px_12px_rgba(15,23,42,.04)] px-3 hover:-translate-y-0.5 transition duration-200">
+                <img src="${p.logo}" alt="${p.name}" loading="lazy" class="max-h-9 max-w-full object-contain"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+                <span style="display:none" class="items-center gap-1.5 text-slate-700 font-semibold text-xs text-center leading-tight">
+                    <i class="fa-solid fa-newspaper text-slate-400"></i>${p.name}
+                </span>
+            </a>`).join('');
+        if (pressItems.length) document.getElementById('press-section').classList.remove('hidden');
 
         const REVEAL_STEP = 0.08;
         Array.from(document.querySelectorAll('.reveal'))
