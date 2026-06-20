@@ -11,7 +11,7 @@ const CONFIG = {
         { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500', enabled: true }
     ],
     lastMinute: [
-        { label: 'Matutirà 2026: Commissari Esterni ', sub: 'Clicca per accedere al motore di ricerca delle commissioni', href: 'https://go.mappedsa.it/KnRJR3', icon: 'fa-solid fa-search', badge: 'Last minute', enabled: false, startDate: null, endDate: '2026-06-18T00:00:00Z' }
+        { label: 'Sistemi e Reti: Soluzione della seconda prova', sub: 'Clicca per accedere gratuitamente alla soluzione completa', href: 'https://go.mappedsa.it/kOxSMw', icon: 'fa-solid fa-search', badge: 'Last minute', enabled: true, startDate: null, endDate: null }
     ],
     links: [
         { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true, enabled: true },
