@@ -11,24 +11,21 @@ const CONFIG = {
         { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500', enabled: true }
     ],
     lastMinute: [
-        { label: 'Sistemi e Reti: Soluzione della seconda prova', sub: 'Clicca per accedere gratuitamente alla soluzione completa', href: 'https://go.mappedsa.it/kOxSMw', icon: 'fa-solid fa-search', badge: 'Last minute', enabled: true, startDate: null, endDate: null }
+        { label: 'Intervista Orizzonte Scuola', sub: 'Nella rubrica “I Protagonisti” di Orizzonte Scuola, condotta dal giornalista Francesco Bunetto, Matteo Sillitti racconta il progetto gratuito Mappe DSA.', href: 'https://go.mappedsa.it/orizzontescuola-intervista', icon: 'fa-solid fa-newspaper', badge: 'Ultima ora', enabled: true, startDate: null, endDate: null }
     ],
     links: [
         { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true, enabled: true },
         { label: 'Richiedi una mappa o appunti', href: 'https://go.mappedsa.it/richiedi-appunti', icon: 'fa-solid fa-plus', chip: 'bg-blue-50 text-blue-600', enabled: true },
+        { label: 'Invia le tue mappe', href: 'https://go.mappedsa.it/community', icon: 'fa-solid fa-paper-plane', chip: 'bg-red-50 text-red-600', enabled: true },
         { label: 'Sostieni il progetto', href: 'https://go.mappedsa.it/donazioni', icon: 'fa-solid fa-heart', chip: 'bg-rose-50 text-rose-500', enabled: true },
         { label: 'Contattaci / Supporto', href: 'https://go.mappedsa.it/supporto', icon: 'fa-solid fa-headset', chip: 'bg-emerald-50 text-emerald-600', enabled: true },
-        { label: 'Articolo Orizzonte Scuola', href: 'https://go.mappedsa.it/orizzontescuola', icon: 'fa-solid fa-newspaper', chip: 'bg-cyan-50 text-cyan-600', enabled: true }
+        { label: 'Intervista Orizzonte Scuola', href: 'https://go.mappedsa.it/orizzontescuola-intervista', icon: 'fa-solid fa-newspaper', chip: 'bg-cyan-50 text-cyan-600', enabled: true },
+        { label: 'Sistemi e Reti: Soluzione della seconda prova', href: 'https://go.mappedsa.it/kOxSMw', icon: 'fa-solid fa-search', enabled: true}
     ],
-    // "Parlano di noi" — loghi della rassegna stampa.
-    //   logo: metti il file in /static/img/press/ (PNG/SVG, sfondo trasparente, ~ orizzontale).
-    //         Se il file manca, viene mostrato automaticamente il nome come fallback.
-    //   href: short link go.mappedsa.it che reindirizza all'articolo.
-    // TODO: sostituisci "Testata 2/3/4" con le testate reali e i relativi short link + loghi.
     press: [
         { name: 'Orizzonte Scuola', href: 'https://go.mappedsa.it/orizzontescuola', logo: '/static/img/press/orizzontescuola.svg', enabled: true },
-        { name: 'Testata 2', href: 'https://go.mappedsa.it/ilfattonisseno', logo: '/static/img/press/ilfattonisseno.webp', enabled: true },
-        { name: 'Testata 3', href: 'https://go.mappedsa.it/seguonews', logo: '/static/img/press/seguonews.svg', enabled: true },
-        { name: 'Testata 4', href: 'https://go.mappedsa.it/blogsicilia', logo: '/static/img/press/blogsicilia.webp', enabled: true }
+        { name: 'Il Fatto Nisseno', href: 'https://go.mappedsa.it/ilfattonisseno', logo: '/static/img/press/ilfattonisseno.webp', enabled: true },
+        { name: 'SeguoNews', href: 'https://go.mappedsa.it/seguonews', logo: '/static/img/press/seguonews.svg', enabled: true },
+        { name: 'BlogSicilia', href: 'https://go.mappedsa.it/blogsicilia', logo: '/static/img/press/blogsicilia.webp', enabled: true }
     ]
 };
