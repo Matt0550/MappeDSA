@@ -11,8 +11,8 @@ const CONFIG = {
         { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500', enabled: true }
     ],
     lastMinute: [
-        { label: 'Intervista Orizzonte Scuola', sub: 'Nella rubrica “I Protagonisti” di Orizzonte Scuola, condotta dal giornalista Francesco Bunetto, Matteo Sillitti racconta il progetto gratuito Mappe DSA.', href: 'https://go.mappedsa.it/orizzontescuola-intervista', icon: 'fa-solid fa-newspaper', badge: 'Ultima ora', enabled: true, startDate: null, endDate: null }
-    ],
+    { label: 'Beta Testing App MappeDSA', sub: 'L\'app ufficiale di MappeDSA sta arrivando: mappe, quiz, flashcard e AI, tutto in tasca. Candidati ora per provarla in super anteprima prima del lancio ufficiale.', href: 'https://go.mappedsa.it/form-beta-mobile', icon: 'fa-solid fa-mobile-screen-button', badge: 'Posti limitati', enabled: true, startDate: null, endDate: null }
+   ],
     links: [
         { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true, enabled: true },
         { label: 'Richiedi una mappa o appunti', href: 'https://go.mappedsa.it/richiedi-appunti', icon: 'fa-solid fa-plus', chip: 'bg-blue-50 text-blue-600', enabled: true },
