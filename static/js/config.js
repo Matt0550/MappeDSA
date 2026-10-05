@@ -11,7 +11,9 @@ const CONFIG = {
         { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500', enabled: true }
     ],
     lastMinute: [
-    { label: 'Beta Testing App MappeDSA', sub: 'L\'app ufficiale di MappeDSA sta arrivando: mappe, quiz, flashcard e AI, tutto in tasca. Candidati ora per provarla in super anteprima prima del lancio ufficiale.', href: 'https://go.mappedsa.it/form-beta-mobile', icon: 'fa-solid fa-mobile-screen-button', badge: 'Posti limitati', enabled: true, startDate: null, endDate: null }
+    { label: 'Beta Testing App MappeDSA', sub: 'L\'app ufficiale di MappeDSA sta arrivando: mappe, quiz, flashcard e AI, tutto in tasca. Candidati ora per provarla in super anteprima prima del lancio ufficiale.', href: 'https://go.mappedsa.it/form-beta-mobile', icon: 'fa-solid fa-mobile-screen-button', badge: 'Posti limitati', enabled: true, startDate: null, endDate: null },
+    { label: 'Flashcards su Giacomo Leopardi', sub: "Vita, pessimismo, Zibaldone, Operette morali e Canti con le poesie principali, da L'infinito ad A Silvia. Utile per studiare Leopardi in modo completo, un concetto alla volta.", href: 'https://go.mappedsa.it/QkTQi4', icon: 'fa-solid fa-book-open', enabled: true, startDate: null, endDate: null },
+
    ],
     links: [
         { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true, enabled: true },
