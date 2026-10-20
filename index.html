@@ -41,6 +41,7 @@
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="MappeDSA — Mappe Concettuali e Appunti Gratis">
     <meta property="og:site_name" content="MappeDSA">
+    <meta property="og:logo" content="https://mappedsa.it/static/favicon/web-app-manifest-512x512.png">
     <meta property="og:locale" content="it_IT">
 
     <!-- Twitter Card -->
@@ -87,6 +88,7 @@
     <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="/static/favicon/site.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="MappeDSA">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -252,6 +254,24 @@
 
             <!-- Social icons (rendered from JS list, see script below) -->
             <div id="socials" class="flex flex-wrap gap-3 mt-6"></div>
+        </section>
+
+        <!-- App download CTA -->
+        <section class="glass rounded-[32px] p-5 reveal">
+            <a href="https://mappedsa.app/download" target="_blank" rel="noopener" class="group flex items-center gap-3.5">
+                <span class="flex flex-col">
+                    <span class="font-bold text-base text-slate-900 leading-tight">Scarica l'app MappeDSA</span>
+                    <span class="text-xs text-slate-500 mt-0.5">Mappe, quiz, flashcard e AI, tutto in tasca. Gratis.</span>
+                </span>
+            </a>
+            <div class="flex items-center justify-center gap-3 mt-4">
+                <a href="https://play.google.com/store/apps/details?id=it.mappedsa.mobile" target="_blank" rel="noopener" class="hover:-translate-y-0.5 transition duration-200">
+                    <img src="/static/img/stores/google-play.png" alt="Disponibile su Google Play" class="h-11">
+                </a>
+                <a href="https://apps.apple.com/it/app/mappedsa/id6800366747" target="_blank" rel="noopener" class="hover:-translate-y-0.5 transition duration-200">
+                    <img src="/static/img/stores/app-store.svg" alt="Scarica su App Store" class="h-11">
+                </a>
+            </div>
         </section>
 
         <!-- "Last minute" highlight link (rendered from JS list, see script below) -->

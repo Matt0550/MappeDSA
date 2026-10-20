@@ -11,18 +11,17 @@ const CONFIG = {
         { label: 'Telegram', href: 'https://t.me/mappedsa', icon: 'fa-brands fa-telegram', hover: 'hover:text-sky-500', enabled: true }
     ],
     lastMinute: [
-    { label: 'Beta Testing App MappeDSA', sub: 'L\'app ufficiale di MappeDSA sta arrivando: mappe, quiz, flashcard e AI, tutto in tasca. Candidati ora per provarla in super anteprima prima del lancio ufficiale.', href: 'https://go.mappedsa.it/form-beta-mobile', icon: 'fa-solid fa-mobile-screen-button', badge: 'Posti limitati', enabled: true, startDate: null, endDate: null },
-    { label: 'Flashcards su Giacomo Leopardi', sub: "Vita, pessimismo, Zibaldone, Operette morali e Canti con le poesie principali, da L'infinito ad A Silvia. Utile per studiare Leopardi in modo completo, un concetto alla volta.", href: 'https://go.mappedsa.it/QkTQi4', icon: 'fa-solid fa-book-open', enabled: true, startDate: null, endDate: null },
+    { label: 'Beta Testing App MappeDSA', sub: 'L\'app ufficiale di MappeDSA sta arrivando: mappe, quiz, flashcard e AI, tutto in tasca. Candidati ora per provarla in super anteprima prima del lancio ufficiale.', href: 'https://go.mappedsa.it/form-beta-mobile', icon: 'fa-solid fa-mobile-screen-button', badge: 'Posti limitati', enabled: false, startDate: null, endDate: null },
 
    ],
     links: [
         { label: 'Visita il sito MappeDSA', href: 'https://go.mappedsa.it/website', icon: 'fa-solid fa-globe', chip: 'bg-indigo-50 text-indigo-600', highlight: true, enabled: true },
-        { label: 'Richiedi una mappa o appunti', href: 'https://go.mappedsa.it/richiedi-appunti', icon: 'fa-solid fa-plus', chip: 'bg-blue-50 text-blue-600', enabled: true },
-        { label: 'Invia le tue mappe', href: 'https://go.mappedsa.it/community', icon: 'fa-solid fa-paper-plane', chip: 'bg-red-50 text-red-600', enabled: true },
+        // { label: 'Richiedi una mappa o appunti', href: 'https://go.mappedsa.it/richiedi-appunti', icon: 'fa-solid fa-plus', chip: 'bg-blue-50 text-blue-600', enabled: true },
+        // { label: 'Invia le tue mappe', href: 'https://go.mappedsa.it/community', icon: 'fa-solid fa-paper-plane', chip: 'bg-red-50 text-red-600', enabled: true },
         { label: 'Sostieni il progetto', href: 'https://go.mappedsa.it/donazioni', icon: 'fa-solid fa-heart', chip: 'bg-rose-50 text-rose-500', enabled: true },
         { label: 'Contattaci / Supporto', href: 'https://go.mappedsa.it/supporto', icon: 'fa-solid fa-headset', chip: 'bg-emerald-50 text-emerald-600', enabled: true },
         { label: 'Intervista Orizzonte Scuola', href: 'https://go.mappedsa.it/orizzontescuola-intervista', icon: 'fa-solid fa-newspaper', chip: 'bg-cyan-50 text-cyan-600', enabled: true },
-        { label: 'Sistemi e Reti: Soluzione della seconda prova', href: 'https://go.mappedsa.it/kOxSMw', icon: 'fa-solid fa-search', enabled: true}
+        // { label: 'Sistemi e Reti: Soluzione della seconda prova', href: 'https://go.mappedsa.it/kOxSMw', icon: 'fa-solid fa-search', enabled: true}
     ],
     press: [
         { name: 'Orizzonte Scuola', href: 'https://go.mappedsa.it/orizzontescuola', logo: '/static/img/press/orizzontescuola.svg', enabled: true },
