@@ -1,7 +1,8 @@
 // Bakes three feeds into index.html as STATIC HTML, each between its own markers:
 //   <!-- MAPS:START/END -->  latest concept maps from the blog (category 6), linked to WordPress
+//   <!-- PILLOLE:START/END --> latest "In pillole" posts (short video + maps + summary)
 //   <!-- APP:START/END -->   latest quizzes, flashcard decks and community maps from mappedsa.app
-//   <!-- BLOG:START/END -->  latest blog posts that are neither maps nor appunti (news, scuola, ...)
+//   <!-- BLOG:START/END -->  latest blog posts that are not maps, appunti or pillole (news, scuola, ...)
 //
 // Run locally:  node scripts/update-posts.mjs
 // In CI:        see .github/workflows/update-posts.yml (daily)
@@ -24,6 +25,7 @@ const INDEX = join(__dirname, '..', 'index.html');
 const WP = 'https://mappedsa.altervista.org/wp-json/wp/v2/posts';
 const WP_MAPS_CATEGORY = 6; // "Mappe Concettuali"
 const WP_NOTES_CATEGORY = 105; // "Appunti"
+const WP_PILLS_CATEGORY = 165; // "In pillole"
 const FEED = 'https://api.mappedsa.app/api/v1/feed';
 const APP = 'https://mappedsa.app';
 const LOGO = 'https://mappedsa.it/static/favicon/web-app-manifest-512x512.png';
@@ -157,8 +159,9 @@ async function appItems(count) {
 
 const SOURCES = {
     MAPS: () => wpPosts(`categories=${WP_MAPS_CATEGORY}`, 6),
+    PILLOLE: async () => wpPosts(`categories=${(await categoryTree([WP_PILLS_CATEGORY])).join(',')}`, 4),
     APP: () => appItems(6),
-    BLOG: async () => wpPosts(`categories_exclude=${(await categoryTree([WP_MAPS_CATEGORY, WP_NOTES_CATEGORY])).join(',')}`, 4),
+    BLOG: async () => wpPosts(`categories_exclude=${(await categoryTree([WP_MAPS_CATEGORY, WP_NOTES_CATEGORY, WP_PILLS_CATEGORY])).join(',')}`, 4),
 };
 
 async function main() {
